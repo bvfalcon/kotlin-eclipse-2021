@@ -55,7 +55,7 @@ val kotlinPluginArtifactsResolver = HttpArtifactsResolver("https://plugins.jetbr
 val tempKotlinHttpArtifact = HttpArtifact("plugin/download?rel=true&updateId=$kotlinPluginUpdateId")
 
 tasks.withType<Wrapper> {
-    gradleVersion = "7.5.1"
+    gradleVersion = "8.6"
 }
 
 val testFrameworkDependencies by configurations.creating
