@@ -9,200 +9,57 @@
 	<version>1.0-SNAPSHOT</version>
 
 	<properties>
-		<tycho.version>3.0.5</tycho.version>
 		<s3-bucket>github.bvfalcon</s3-bucket>
 		<s3-region>eu-central-1</s3-region>
-		<mirror-repo>${project.build.directory}/mirror-repository</mirror-repo>
+		<composite-repo>${project.build.directory}/repository</composite-repo>
 	</properties>
 
 	<build>
 		<defaultGoal>validate</defaultGoal>
 		<plugins>
 			<plugin>
-				<groupId>io.github.barrypitman</groupId>
-				<artifactId>s3-storage-wagon</artifactId>
-				<version>2.3.5-SNAPSHOT</version>
-				<executions>
-					<execution>
-						<id>download-repository-2022-03</id>
-						<phase>validate</phase>
-						<goals>
-							<goal>s3-download</goal>
-						</goals>
-						<configuration>
-							<bucket>${s3-bucket}</bucket>
-							<region>${s3-region}</region>
-							<downloadPath>${mirror-repo}-2022-03</downloadPath>
-							<keys>kotlin-eclipse/eclipse-releases/2022-03/</keys>
-						</configuration>
-					</execution>
-					<execution>
-						<id>download-repository-2022-06</id>
-						<phase>validate</phase>
-						<goals>
-							<goal>s3-download</goal>
-						</goals>
-						<configuration>
-							<bucket>${s3-bucket}</bucket>
-							<region>${s3-region}</region>
-							<downloadPath>${mirror-repo}-2022-06</downloadPath>
-							<keys>kotlin-eclipse/eclipse-releases/2022-06/</keys>
-						</configuration>
-					</execution>
-					<execution>
-						<id>download-repository-2022-09</id>
-						<phase>validate</phase>
-						<goals>
-							<goal>s3-download</goal>
-						</goals>
-						<configuration>
-							<bucket>${s3-bucket}</bucket>
-							<region>${s3-region}</region>
-							<downloadPath>${mirror-repo}-2022-09</downloadPath>
-							<keys>kotlin-eclipse/eclipse-releases/2022-09/</keys>
-						</configuration>
-					</execution>
-					<execution>
-						<id>download-repository-2023-03</id>
-						<phase>validate</phase>
-						<goals>
-							<goal>s3-download</goal>
-						</goals>
-						<configuration>
-							<bucket>${s3-bucket}</bucket>
-							<region>${s3-region}</region>
-							<downloadPath>${mirror-repo}-2023-03</downloadPath>
-							<keys>kotlin-eclipse/eclipse-releases/2023-03/</keys>
-						</configuration>
-					</execution>
-					<execution>
-						<id>download-repository-2023-09</id>
-						<phase>validate</phase>
-						<goals>
-							<goal>s3-download</goal>
-						</goals>
-						<configuration>
-							<bucket>${s3-bucket}</bucket>
-							<region>${s3-region}</region>
-							<downloadPath>${mirror-repo}-2023-09</downloadPath>
-							<keys>kotlin-eclipse/eclipse-releases/2023-09/</keys>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>3.3.1</version>
-				<executions>
-					<execution>
-						<id>create-new-cumulative-repository</id>
-						<phase>validate</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${mirror-repo}</outputDirectory>
-							<resources>
-								<resource>
-									<directory>${mirror-repo}-2022-03</directory>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>build-helper-maven-plugin</artifactId>
-				<version>3.4.0</version>
+				<artifactId>buildnumber-maven-plugin</artifactId>
+				<version>3.2.0</version>
 				<executions>
 					<execution>
-						<id>escape-path</id>
+						<id>create-timestamp</id>
 						<phase>validate</phase>
 						<goals>
-							<goal>regex-property</goal>
+							<goal>create-timestamp</goal>
 						</goals>
-						<configuration>
-							<value>${mirror-repo}</value>
-							<regex>\\</regex>
-							<replacement>/</replacement>
-							<name>escaped-mirror-repo</name>
-							<failIfNoMatch>false</failIfNoMatch>
-						</configuration>
 					</execution>
 				</executions>
 			</plugin>
 			<plugin>
-				<groupId>org.eclipse.tycho.extras</groupId>
-				<artifactId>tycho-p2-extras-plugin</artifactId>
-				<version>${tycho.version}</version>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>3.1.0</version>
 				<executions>
 					<execution>
-						<id>update-cumulative-repositoty-with-2022-06</id>
+						<id>build-p2-composite</id>
 						<phase>validate</phase>
 						<goals>
-							<goal>mirror</goal>
+							<goal>run</goal>
 						</goals>
 						<configuration>
-							<source>
-								<repository>
-									<url>${escaped-mirror-repo}-2022-06</url>
-								</repository>
-							</source>
-							<destination>${mirror-repo}</destination>
-							<append>true</append>
-							<xzCompress>false</xzCompress>
-						</configuration>
-					</execution>
-					<execution>
-						<id>update-cumulative-repositoty-with-2022-09</id>
-						<phase>validate</phase>
-						<goals>
-							<goal>mirror</goal>
-						</goals>
-						<configuration>
-							<source>
-								<repository>
-									<url>${escaped-mirror-repo}-2022-09</url>
-								</repository>
-							</source>
-							<destination>${mirror-repo}</destination>
-							<append>true</append>
-							<xzCompress>false</xzCompress>
-						</configuration>
-					</execution>
-					<execution>
-						<id>update-cumulative-repositoty-with-2023-03</id>
-						<phase>validate</phase>
-						<goals>
-							<goal>mirror</goal>
-						</goals>
-						<configuration>
-							<source>
-								<repository>
-									<url>${escaped-mirror-repo}-2023-03</url>
-								</repository>
-							</source>
-							<destination>${mirror-repo}</destination>
-							<append>true</append>
-							<xzCompress>false</xzCompress>
-						</configuration>
-					</execution>
-					<execution>
-						<id>update-cumulative-repositoty-with-2023-09</id>
-						<phase>validate</phase>
-						<goals>
-							<goal>mirror</goal>
-						</goals>
-						<configuration>
-							<source>
-								<repository>
-									<url>${escaped-mirror-repo}-2023-09</url>
-								</repository>
-							</source>
-							<destination>${mirror-repo}</destination>
-							<append>true</append>
-							<xzCompress>false</xzCompress>
+							<target>
+								<copy file="compositeArtifacts.xml" tofile="${composite-repo}/compositeArtifacts.xml">
+									<filterset>
+										<filter token="timestamp" value="${timestamp}"/>
+									</filterset>
+								</copy>
+
+								<copy file="compositeContent.xml" tofile="${composite-repo}/compositeContent.xml">
+									<filterset>
+										<filter token="timestamp" value="${timestamp}"/>
+									</filterset>
+								</copy>
+
+								<echo file="${composite-repo}/p2.index">version=1
+metadata.repository.factory.order=compositeContent.xml,\!
+artifact.repository.factory.order=compositeArtifacts.xml,\!
+</echo>
+							</target>
 						</configuration>
 					</execution>
 				</executions>
