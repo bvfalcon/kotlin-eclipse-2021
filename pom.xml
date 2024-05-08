@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>kotlin.eclipse</groupId>
-	<artifactId>org.jetbrains.kotlin.unified-update-site</artifactId>
+	<artifactId>org.jetbrains.kotlin.composite-repository</artifactId>
 	<version>1.0-SNAPSHOT</version>
 
 	<properties>
