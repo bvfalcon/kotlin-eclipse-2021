@@ -139,8 +139,6 @@ class KotlinLightType(val originElement: IType) :
 
     override fun getField(name: String?): IField? = originElement.getField(name)
 
-    override fun hashCode(): Int = originElement.hashCode()
-
     override fun getAnnotations(): Array<out IAnnotation>? = originElement.getAnnotations()
 
     override fun toString(): String = originElement.toString()
@@ -293,7 +291,9 @@ class KotlinLightType(val originElement: IType) :
 
     override fun getTypeParameter(name: String?): ITypeParameter? = originElement.getTypeParameter(name)
 
-    override fun getType(name: String?, occurrenceCount: Int): IType? = originElement.getType(name, occurrenceCount)
+    override fun getType(name: String?, occurrenceCount: Int): SourceType {
+        return originElement.getType(name, occurrenceCount) as SourceType
+    }
 
     override fun getType(name: String?): IType? = originElement.getType(name)
 
