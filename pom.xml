@@ -9,8 +9,6 @@
 	<version>1.0-SNAPSHOT</version>
 
 	<properties>
-		<s3-bucket>github.bvfalcon</s3-bucket>
-		<s3-region>eu-central-1</s3-region>
 		<composite-repo>${project.build.directory}/repository</composite-repo>
 	</properties>
 
