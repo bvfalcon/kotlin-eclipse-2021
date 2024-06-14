@@ -5,7 +5,8 @@
     <property name='p2.timestamp' value='@timestamp@'/>
     <property name='p2.compressed' value='true'/>
   </properties>
-  <children size='14'>
+  <children size='15'>
+    <child location='https://s3.eu-central-1.amazonaws.com/github.bvfalcon/kotlin-eclipse/eclipse-releases/2024-06'/>
     <child location='https://s3.eu-central-1.amazonaws.com/github.bvfalcon/kotlin-eclipse/eclipse-releases/2024-03'/>
     <child location='https://s3.eu-central-1.amazonaws.com/github.bvfalcon/kotlin-eclipse/eclipse-releases/2023-09'/>
     <child location='https://s3.eu-central-1.amazonaws.com/github.bvfalcon/kotlin-eclipse/eclipse-releases/2023-06'/>
